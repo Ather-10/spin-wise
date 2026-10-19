@@ -5,6 +5,7 @@ import { locales, isLocale, alternates, abs, href } from '@/lib/i18n';
 import { getDict } from '@/lib/dict';
 import { presets, getPreset } from '@/lib/presets';
 import Wheel from '@/components/Wheel';
+import AdSlot from '@/components/AdSlot';
 
 type P = { params: Promise<{ lang: string; slug: string }> };
 export const dynamicParams = false;
@@ -32,9 +33,11 @@ export default async function PresetPage({ params }: P) {
   const ld = { '@context': 'https://schema.org', '@type': 'WebApplication', name: p.title, url: abs(lang, `/a-s/${slug}`), applicationCategory: 'UtilitiesApplication', operatingSystem: 'Any' };
   return (
     <>
-      <h1>{p.title}</h1>
-      <p className="muted">{p.desc}</p>
-      <Wheel initial={p.entries} />
+      <Wheel
+        initial={p.entries}
+        lead={<><h1>{p.title}</h1><p className="muted">{p.desc}</p><AdSlot id="preset-left" size="rect" /></>}
+      />
+      <AdSlot id="preset-bottom" size="leader" />
       <h2>{d.presets}</h2>
       <ul className="grid">
         {presets.filter((x) => x.slug !== slug).map((x) => <li key={x.slug}><Link href={href(lang, `/a-s/${x.slug}`)}>{x.name}</Link></li>)}

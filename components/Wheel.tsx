@@ -26,7 +26,7 @@ const Crown = () => (
   </svg>
 );
 
-export default function Wheel({ initial }: { initial: string[] }) {
+export default function Wheel({ initial, lead }: { initial: string[]; lead?: React.ReactNode }) {
   const { t, active, saveWheel } = useApp();
   const [entries, setEntries] = useState<Entry[]>(() => toEntries(initial));
   const [raw, setRaw] = useState(initial.join('\n'));
@@ -315,20 +315,22 @@ export default function Wheel({ initial }: { initial: string[] }) {
   );
 
   return (
-    <div className="tool">
-      <div className="box stage">
-        {S.showTitle && S.title && (
-          <div className="wtitle"><h2>{S.title}</h2>{S.desc && <p className="muted">{S.desc}</p>}</div>
-        )}
+    <div className="hero">
+      <div className="lead">{lead}</div>
+
+      <div className="stage">
         <div className="wheelbox">
           <div className="pointer" />
           <canvas ref={cv} width={1040} height={1040} onClick={spin} role="img" aria-label="Wheel" />
         </div>
         <button className="btn big" onClick={spin} disabled={busy}>{t.spin}</button>
         {msg && <p className="msg" role="status">{msg}</p>}
+        {S.showTitle && S.title && (
+          <div className="wtitle"><h2>{S.title}</h2>{S.desc && <p className="muted">{S.desc}</p>}</div>
+        )}
       </div>
 
-      <div className="box">
+      <div className="box panel">
         <div className="tabs" role="tablist">
           {([['e', `${t.entries} (${entries.length})`], ['r', `${t.results} (${results.length})`], ['a', t.advanced], ['s', t.settings]] as const).map(([k, l]) => (
             <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)}>{l}</button>

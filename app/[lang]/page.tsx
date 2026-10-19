@@ -5,6 +5,7 @@ import { isLocale, alternates, abs, href } from '@/lib/i18n';
 import { getDict } from '@/lib/dict';
 import { presets } from '@/lib/presets';
 import Wheel from '@/components/Wheel';
+import AdSlot from '@/components/AdSlot';
 
 type P = { params: Promise<{ lang: string }> };
 
@@ -29,9 +30,11 @@ export default async function Home({ params }: P) {
   ];
   return (
     <>
-      <h1>{d.h1}</h1>
-      <p className="muted">{d.intro}</p>
-      <Wheel initial={['Pizza', 'Burger', 'Sushi', 'Tacos', 'Salad', 'Pasta']} />
+      <Wheel
+        initial={['Pizza', 'Burger', 'Sushi', 'Tacos', 'Salad', 'Pasta']}
+        lead={<><h1>{d.h1}</h1><p className="muted">{d.intro}</p><AdSlot id="home-left" size="rect" /></>}
+      />
+      <AdSlot id="home-bottom" size="leader" />
       <h2>{d.how}</h2>
       <ol>{d.steps.map((s) => <li key={s}>{s}</li>)}</ol>
       <h2>{d.presets}</h2>
